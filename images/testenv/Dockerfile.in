@@ -1,0 +1,27 @@
+# Copyright Greg Haskins All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+FROM _NS_/udo-buildenv:_TAG_
+
+# udo configuration locations
+ENV UDO_CFG_PATH /etc/hyperledger/udo
+
+# create needed directories
+RUN mkdir -p \
+  $UDO_CFG_PATH \
+  /var/hyperledger/production
+
+# udo configuration files
+ADD payload/sampleconfig.tar.bz2 $UDO_CFG_PATH
+
+# udo binaries
+COPY payload/orderer /usr/local/bin
+COPY payload/peer /usr/local/bin
+
+# softhsm2
+COPY payload/install-softhsm2.sh /tmp
+RUN bash /tmp/install-softhsm2.sh && rm -f install-softhsm2.sh
+
+# typically, this is mapped to a developer's dev environment
+WORKDIR /opt/gopath/src/github.com/hyperledger/udo

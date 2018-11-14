@@ -1,0 +1,11 @@
+# Copyright Greg Haskins All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+FROM _BASE_NS_/udo-baseos:_BASE_TAG_
+ENV UDO_CFG_PATH /etc/hyperledger/udo
+RUN mkdir -p /var/hyperledger/production $UDO_CFG_PATH
+COPY payload/orderer /usr/local/bin
+ADD payload/sampleconfig.tar.bz2 $UDO_CFG_PATH/
+EXPOSE 7050
+CMD ["orderer"]

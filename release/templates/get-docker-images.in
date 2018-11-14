@@ -1,0 +1,24 @@
+#!/bin/bash -eu
+# Copyright London Stock Exchange Group All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# This script pulls docker images from the Dockerhub hyperledger repositories
+
+# set the default Docker namespace and tag
+DOCKER_NS=_NS_
+ARCH=_ARCH_
+VERSION=_VERSION_
+BASE_DOCKER_TAG=_BASE_DOCKER_TAG_
+
+# set of Hyperledger Udo images
+UDO_IMAGES=(udo-peer udo-orderer udo-ccenv udo-javaenv udo-kafka udo-zookeeper \
+udo-couchdb udo-tools)
+
+for image in ${UDO_IMAGES[@]}; do
+  echo "Pulling ${DOCKER_NS}/$image:${ARCH}-${VERSION}"
+  docker pull ${DOCKER_NS}/$image:${ARCH}-${VERSION}
+done
+
+echo "Pulling ${DOCKER_NS}/udo-baseos:${BASE_DOCKER_TAG}"
+docker pull ${DOCKER_NS}/udo-baseos:${BASE_DOCKER_TAG}
